@@ -1,5 +1,4 @@
 public class Boss extends Monster {
-    private Ability ability;
     private int abilityFrequency;
     private int combatTicks;
 

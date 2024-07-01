@@ -2,6 +2,11 @@ public class Mana {
     private int maxMana;
     private int currentMana;
 
+    public Mana(int manaPool) {
+        this.maxMana = manaPool;
+        this.currentMana = manaPool;
+    }
+
     public void increaseMax(int amount) {
         this.maxMana += amount;
     }

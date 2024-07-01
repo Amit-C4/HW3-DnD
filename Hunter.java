@@ -1,6 +1,11 @@
 public class Hunter extends Player {
     private Quiver quiver;
+    private int range;
 
+    public Hunter(String name, int health, int attack, int defense, int range) {
+        super(name, health, attack, defense);
+        this.quiver = new Quiver(10);
+    }
     @Override
     public void attack(Unit unit) {
         // Implement attack logic

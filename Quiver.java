@@ -2,6 +2,11 @@ public class Quiver {
     private int currentArrows;
     private int maxArrows;
 
+    public Quiver(int i) {
+        this.maxArrows = i * 10;
+        this.currentArrows = this.maxArrows;
+    }
+
     public void addArrows() {
         this.currentArrows = this.maxArrows;
     }

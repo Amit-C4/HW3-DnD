@@ -1,5 +1,11 @@
 public class Rogue extends Player {
     private Energy energy;
+    private int energyCost;
+
+    public Rogue(String name, int health, int attack, int defense, int energyCost) {
+        super(name, health, attack, defense);
+        this.energy = new Energy();
+    }
 
     @Override
     public void attack(Unit unit) {

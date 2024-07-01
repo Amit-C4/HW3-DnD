@@ -1,4 +1,12 @@
 public class Warrior extends Player {
+    private int cooldown;
+    private int remainingCooldown;
+    
+    public Warrior(String name, int health, int attack, int defense, int cooldown) {
+        super(name, health, attack, defense);
+        this.cooldown = cooldown;
+    }
+
     @Override
     public void attack(Unit unit) {
         // Implement attack logic
