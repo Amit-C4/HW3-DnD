@@ -1,4 +1,10 @@
 public class Warrior extends Player {
+    private int cooldown;
+
+    public Warrior(String name, int health, int attack, int defense, int cooldown) {
+        super(name, health, attack, defense);
+        this.cooldown = cooldown;
+    }
     @Override
     public void attack(Unit unit) {
         // Implement attack logic
@@ -19,15 +25,7 @@ public class Warrior extends Player {
         // Implement display logic
     }
 
-    @Override
     public char getCharacter() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCharacter'");
-    }
-
-    @Override
-    public Vector2 getPosition() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPosition'");
+        return this.character;
     }
 }

@@ -1,5 +1,18 @@
 public class Mage extends Player {
-    private Mana mana;
+    private int mana;
+    private int manaCost;
+    private int spellPower;
+    private int hitCount;
+    private int range;
+
+    public Mage(String name, int health, int attack, int defense, int manaPool, int manaCost, int spellPower, int hitCount, int range) {
+        super(name, health, attack, defense);
+        this.mana = manaPool;
+        this.manaCost = manaCost;
+        this.spellPower = spellPower;
+        this.hitCount = hitCount;
+        this.range = range;
+    }
 
     @Override
     public void attack(Unit unit) {
@@ -20,16 +33,8 @@ public class Mage extends Player {
     public void display(String message) {
         // Implement display logic
     }
-
-    @Override
+    
     public char getCharacter() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCharacter'");
-    }
-
-    @Override
-    public Vector2 getPosition() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPosition'");
+        return this.character;
     }
 }

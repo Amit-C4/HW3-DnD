@@ -1,6 +1,11 @@
 public class Trap extends Enemy {
     private Visibility visibility;
 
+    public Trap(String name, int health, int attack, int defense, int xp, int visibility, int invisibility) {
+        super(name, health, attack, defense, xp);
+        this.visibility = new Visibility(visibility, invisibility);
+    }
+
     @Override
     public void attack(Unit unit) {
         // Implementation
@@ -20,16 +25,8 @@ public class Trap extends Enemy {
     public void display(String message) {
         // Implementation
     }
-
-    @Override
+ 
     public char getCharacter() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCharacter'");
-    }
-
-    @Override
-    public Vector2 getPosition() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPosition'");
+        return this.character;
     }
 }

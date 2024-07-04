@@ -1,5 +1,11 @@
 public abstract class Enemy extends Unit {
     protected int xp;
+    protected char character;
+
+    public Enemy(String name, int health, int attack, int defense, int xp) {
+        super(name, health, attack, defense);
+        this.xp = xp;
+    }
 
     @Override
     public abstract void attack(Unit unit);

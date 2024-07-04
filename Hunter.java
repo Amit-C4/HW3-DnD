@@ -1,5 +1,12 @@
 public class Hunter extends Player {
-    private Quiver quiver;
+    private int arrows;
+    private int range;
+
+    public Hunter(String name, int health, int attack, int defense, int range) {
+        super(name, health, attack, defense);
+        arrows = 10;
+        this.range = range;
+    }
 
     @Override
     public void attack(Unit unit) {
@@ -21,15 +28,7 @@ public class Hunter extends Player {
         // Implement display logic
     }
 
-    @Override
     public char getCharacter() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCharacter'");
-    }
-
-    @Override
-    public Vector2 getPosition() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPosition'");
+        return this.character;
     }
 }

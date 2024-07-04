@@ -1,6 +1,11 @@
 public class Monster extends Enemy {
     private int visionRange;
 
+    public Monster(String name, int health, int attack, int defense, int visionRange, int xp) {
+        super(name, health, attack, defense, xp);
+        this.visionRange = visionRange;
+    }
+
     @Override
     public void attack(Unit unit) {
         // Implementation
@@ -21,15 +26,7 @@ public class Monster extends Enemy {
         // Implementation
     }
 
-    @Override
     public char getCharacter() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCharacter'");
-    }
-
-    @Override
-    public Vector2 getPosition() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPosition'");
+        return this.character;
     }
 }

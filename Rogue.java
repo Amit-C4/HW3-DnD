@@ -1,5 +1,12 @@
 public class Rogue extends Player {
-    private Energy energy;
+    private int cost;
+    private int energy;
+
+    public Rogue(String name, int health, int attack, int defense, int cost) {
+        super(name, health, attack, defense);
+        this.cost = cost;
+        this.energy = 100;
+    }
 
     @Override
     public void attack(Unit unit) {
@@ -20,16 +27,8 @@ public class Rogue extends Player {
     public void display(String message) {
         // Implement display logic
     }
-
-    @Override
+    
     public char getCharacter() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCharacter'");
-    }
-
-    @Override
-    public Vector2 getPosition() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPosition'");
+        return this.character;
     }
 }

@@ -4,6 +4,13 @@ public class Visibility {
     private int ticksCount;
     private boolean visible;
 
+    public Visibility(int visibilityTime, int invisibilityTime) {
+        this.visibilityTime = visibilityTime;
+        this.invisibilityTime = invisibilityTime;
+        ticksCount = 0;
+        visible = true;
+    }
+
     public void tick() {
         visible = ticksCount < visibilityTime;
         if (ticksCount == visibilityTime + invisibilityTime) {
