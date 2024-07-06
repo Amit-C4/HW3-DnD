@@ -8,4 +8,13 @@ public abstract class Player extends Unit {
         experience = 0;
         level = 1;
     }
+
+    public void levelUp() {
+        level++;
+        experience = 0;
+        hp.increaseMax(10 * level);
+        hp.heal();
+        ap += 4 * level;
+        dp += 1 * level;
+    }
 }

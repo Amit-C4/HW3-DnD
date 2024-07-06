@@ -31,4 +31,10 @@ public class Rogue extends Player {
     public char getCharacter() {
         return this.character;
     }
+
+    public void levelUp() {
+        super.levelUp();
+        ap += 3 * level;
+        energy = 100;
+    }
 }

@@ -31,4 +31,11 @@ public class Hunter extends Player {
     public char getCharacter() {
         return this.character;
     }
+
+    public void levelUp() {
+        super.levelUp();
+        arrows += 10 * level;
+        ap += 2 * level;
+        dp += 1 * level;
+    }
 }

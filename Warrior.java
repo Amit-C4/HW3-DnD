@@ -1,5 +1,6 @@
 public class Warrior extends Player {
     private int cooldown;
+    private int currCooldown;
 
     public Warrior(String name, int health, int attack, int defense, int cooldown) {
         super(name, health, attack, defense);
@@ -27,5 +28,14 @@ public class Warrior extends Player {
 
     public char getCharacter() {
         return this.character;
+    }
+
+    public void levelUp() {
+        super.levelUp();
+        currCooldown = 0;
+        ap += 2 * level;
+        dp += 1 * level;
+        hp.increaseMax(5 * level);
+        hp.heal();
     }
 }
