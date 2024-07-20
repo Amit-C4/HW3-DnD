@@ -27,5 +27,9 @@ public class Health {
     public int getCurrent() {
         return this.currentHP;
     }
+
+    public boolean isAlive() {
+        return this.currentHP > 0;
+    }
 }
 

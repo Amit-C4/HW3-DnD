@@ -1,7 +1,6 @@
 package Classes;
 
-import Units.Player;
-import Units.Unit;
+import tiles.Units.Players.Player;
 
 public class Mage extends Player {
     private int manaPool;
@@ -19,30 +18,6 @@ public class Mage extends Player {
         this.spellPower = spellPower;
         this.hitCount = hitCount;
         this.range = range;
-    }
-
-    @Override
-    public void attack(Unit unit) {
-        // Implement attack logic
-    }
-
-    @Override
-    public void move(String key) {
-        // Implement move logic
-    }
-
-    @Override
-    public void onTick() {
-        // Implement onTick logic
-    }
-
-    @Override
-    public void display(String message) {
-        // Implement display logic
-    }
-    
-    public char getCharacter() {
-        return this.character;
     }
 
     public void levelUp() {
