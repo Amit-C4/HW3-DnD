@@ -1,8 +1,8 @@
 package model.tiles.Units.Enemies;
 
 import utils.Callbacks.MSG_Callback;
-
 import model.tiles.Units.HeroicUnit;
+import model.tiles.Units.players.Player;
 
 public class Boss extends Monster implements HeroicUnit {
     private int abilityFrequency;
@@ -15,6 +15,25 @@ public class Boss extends Monster implements HeroicUnit {
     }
 
     public void castAbility() {
-        
+        combatTicks = 0;
+        Player player = helper.getPlayer();
+        msg.send(name + " shoots at "+ player.getName());
+        battle(player, att);
+
+        if (!player.isAlive()){
+            player.onDeath(this);
+        }
+    }
+
+    public void onTick() {
+        if (this.position.range(helper.getPlayerPosition()) < visionRange) {
+            if (combatTicks == abilityFrequency) {
+                castAbility();
+            }
+            else {
+                combatTicks++;
+                super.onTick();
+            }
+        }
     }
 }

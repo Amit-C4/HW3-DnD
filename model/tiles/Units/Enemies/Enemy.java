@@ -1,7 +1,6 @@
 package model.tiles.Units.Enemies;
 
 import utils.Callbacks.MSG_Callback;
-import model.game.Board;
 import model.tiles.Units.Unit;
 import model.tiles.Units.players.Player;
 
@@ -30,14 +29,17 @@ public abstract class Enemy extends Unit {
     public void visit(Player p){
         battle(p);
         if (!p.isAlive()){
-            p.onDeath();
+            p.onDeath(this);
         }
+    }
+
+    public void onDeath(Player player){
+        msg.send(name + " has been defeated. " + player.getName() + " gained " + xp + " experience");
+        helper.removeUnit(this);
     }
 
     @Override
     public String toString() {
         return super.toString() + "    Experience Value: " + xp;
     }
-
-    public abstract void onTick(Board board);
 }

@@ -15,6 +15,10 @@ public abstract class Tile {
         this.position = position;
     }
 
+    public Position getPosition() {
+        return position;
+    }
+
     public void setPosition(Position position) {
         this.position = position;
     }
@@ -24,20 +28,10 @@ public abstract class Tile {
         return this;
     }
 
-    public void swapPosition(Tile other) {
-        Position temp = this.position;
-        this.position = other.position;
-        other.position = temp;
-        //TODO: update the position of the tile in the board
-    }
-
     public String view() {
         return String.valueOf(symbol);
     }
 
-    public Position getPosition() {
-        return position;
-    }
 
     public abstract void accept(Unit unit);
 }

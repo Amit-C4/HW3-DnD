@@ -1,5 +1,4 @@
 package model.tiles.Units.Enemies;
-import model.game.Board;
 import utils.Visibility;
 import utils.Callbacks.MSG_Callback;
 
@@ -11,13 +10,11 @@ public class Trap extends Enemy {
         this.visibility = new Visibility(visibility, invisibility);
     }
 
-    public void onTick(Board board) {
+    public void onTick() {
         visibility.tick();
     }
 
-    public void onDeath(Board board) {
-        //TODO: Implement onDeath
-    }
+    
 
     @Override
     public String view() {

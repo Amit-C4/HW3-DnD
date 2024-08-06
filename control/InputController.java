@@ -11,19 +11,7 @@ import utils.Position;
 
 public class InputController {
 
-    private static InputController instance;
-
-    public static InputController getInstance(MSG_Callback msg_Callback) {
-        if (instance == null)
-            instance = new InputController(msg_Callback);
-        return instance;
-    }
-
-    private InputController() {
-        // Do nothing
-    }
-
-    private InputController(MSG_Callback msg_Callback) {
+    public InputController(MSG_Callback msg_Callback) {
         this.msg_Callback = msg_Callback;
     }
 
@@ -55,7 +43,6 @@ public class InputController {
             msg_Callback.send("Invalid Player ID. Please select a valid Player ID: ");
             id = scanner.nextInt();
         }
-        scanner.close();
 
         Player player = tileFactory.producePlayer(id, new Position(0, 0));
         msg_Callback.send("You have selected:\n " + player.getName());
@@ -68,6 +55,7 @@ public class InputController {
         msg_Callback.send("Enter movement (W,A,S,D,E,Q): ");
 
         char inputChar = scanner.next().charAt(0);
+
         inputChar = Character.toLowerCase(inputChar);
         InputType res = inputTypes.get(inputChar);
 
@@ -77,7 +65,6 @@ public class InputController {
             inputChar = Character.toLowerCase(inputChar);
             res = inputTypes.get(inputChar);
         }
-        scanner.close();
         return res;
     }
 

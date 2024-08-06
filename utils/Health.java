@@ -17,11 +17,11 @@ public class Health {
     }
 
     public void heal(int amount) {
-        this.currentHP += amount;
+        this.currentHP = Math.min(currentHP + amount, maxHP);
     }
 
     public void takeDamage(int amount) {
-        this.currentHP -= amount;
+        this.currentHP = Math.max(0,  currentHP-amount);
     }
 
     public int getCurrent() {
@@ -33,6 +33,9 @@ public class Health {
     }
 
     public boolean isAlive() {
+        
+
+        
         return this.currentHP > 0;
     }
 }

@@ -2,7 +2,10 @@ package model.tiles.Units.players.Classes;
 
 import utils.Callbacks.MSG_Callback;
 import model.tiles.Units.players.Player;
-import model.game.Board;
+import model.tiles.Units.Enemies.Enemy;
+import java.util.List;
+
+import control.InputType;
 
 public class Warrior extends Player {
     private int cooldown;
@@ -17,21 +20,22 @@ public class Warrior extends Player {
     public void levelUp() {
         super.levelUp();
         currCooldown = 0;
+        msg.send(name + " reached level" + level + ": +" + healthGain() + " HP, +" + attackGain() + " Attack, +" + defenseGain() + " Defense");
     }
 
     @Override
     public int attack() {
-        return super.attack() + 2 * level;
+        return (super.attack() + 2) * level;
     }
 
     @Override
     public int healthGain() {
-        return super.healthGain() + 5 * level;
+        return (super.healthGain() + 5) * level;
     }
 
     @Override
     public int defenseGain() {
-        return super.defenseGain() + 1 * level;
+        return (super.defenseGain() + 1) * level;
     }
 
 
@@ -41,11 +45,24 @@ public class Warrior extends Player {
     }
 
     public void castAbility() {
-        
+        if (currCooldown == 0) {
+            currCooldown = cooldown;
+            hp.heal(10 * dp);
+            msg.send(name + " used Avenger's Shield, healing for" + (10*dp));
+
+            List<Enemy> enemies = helper.getEnemiesInRange(3, this.position);
+            int damage = hp.getMax() / 10;
+            Enemy oponent = enemies.get(generator.generate(enemies.size()));
+            battle(oponent, damage);
+            if(!(oponent.isAlive())){
+                gainExperience(oponent.experienceValue());
+                oponent.onDeath(this);
+            }
+        }
     }
 
-    @Override
-    public void onTick(Board board){
+    public void onTick(InputType input) {
+        super.onTick(input);
         if(currCooldown > 0){
             currCooldown--;
         }

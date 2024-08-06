@@ -16,17 +16,14 @@ public class Game {
     public Game() {
         View view = new CLI();
         this.msg_Callback = view.getCallback();
-        this.ic = InputController.getInstance(msg_Callback);
+        this.ic = new InputController(msg_Callback);
         this.player = ic.choosePlayer();
     }
 
     public void startGame(){
-        for(int i = 1; i <= 4 ; i++){
+        for(int i = 1; i <= 4 & player.isAlive(); i++){
             Level currentLevel = new Level(i, player, msg_Callback);
             currentLevel.startLevel();
         }
     }
-    
-
-
 }

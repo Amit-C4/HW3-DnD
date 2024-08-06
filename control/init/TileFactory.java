@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import utils.BoardHelper;
 import utils.Position;
 import utils.Callbacks.MSG_Callback;
 import model.tiles.Empty;
@@ -73,9 +74,9 @@ public class TileFactory {
         return this.player;
     }
 
-    public Enemy produceEnemy(char tile, Position p){
+    public Enemy produceEnemy(char tile, Position p, BoardHelper helper){
         Enemy e = enemyTypes.get(tile).get();
-        e.init(p);
+        e.init(p, helper);
         return e;
     }
 

@@ -2,7 +2,9 @@ package model.tiles.Units.players.Classes;
 
 import utils.Callbacks.MSG_Callback;
 import model.tiles.Units.players.Player;
-import model.game.Board;
+import model.tiles.Units.Enemies.Enemy;
+import control.InputType;
+import java.util.List;
 
 public class Hunter extends Player {
     private static final int ARROW_GAIN = 10;
@@ -21,16 +23,18 @@ public class Hunter extends Player {
     public void levelUp() {
         super.levelUp();
         arrows += arrow_gain();
+
+        msg.send(name + " reached level" + level + ": +" + healthGain() + " HP, +" + attackGain() + " Attack, +" + defenseGain() + " Defense");
     }
 
     @Override
     public int attack() {
-        return super.attack() + 2 * level;
+        return (super.attack() + 2) * level;
     }
 
     @Override
     public int defenseGain() {
-        return super.defenseGain() + 1 * level;
+        return (super.defenseGain() + 1) * level;
     }
 
     private int arrow_gain() {
@@ -43,10 +47,23 @@ public class Hunter extends Player {
     }
 
     public void castAbility() {
-        
+        if (arrows > 0) {
+            arrows--;
+            List<Enemy> enemies = helper.getEnemiesInRange(range, this.position);
+            int damage = att;
+            Enemy closest = enemies.get(0);
+            msg.send(name + " fired an arrow at " + closest.getName());
+            battle(closest, damage);
+
+            if(!(closest.isAlive())){
+                gainExperience(closest.experienceValue());
+                closest.onDeath(this);
+            }
+        }
     }
 
-    public void onTick(Board board) {
+    public void onTick(InputType input) {
+        super.onTick(input);
         if (ticks == UPDATE_FREQ) {
             arrows += arrow_gain();
             ticks = 0;

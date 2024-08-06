@@ -1,7 +1,10 @@
 package model.tiles.Units.players.Classes;
 import utils.Callbacks.MSG_Callback;
 import model.tiles.Units.players.Player;
-import model.game.Board;
+import model.tiles.Units.Enemies.Enemy;
+import java.util.List;
+
+import control.InputType;
 
 public class Mage extends Player {
     private static final int MANA_POOL_GAIN = 25;
@@ -29,6 +32,8 @@ public class Mage extends Player {
         manaPool += mana_pool_gain();
         mana = Math.min(manaPool, mana + manaPool/4);
         spellPower += spell_power_gain();
+
+        msg.send(name + " reached level" + level + ": +" + healthGain() + " HP, +" + attackGain() + " Attack, +" + defenseGain() + " Defense, +" + mana_pool_gain() + " Maximum Mana, +" + spell_power_gain() + " Spell Power");
     }
 
     private int mana_pool_gain() {
@@ -45,11 +50,28 @@ public class Mage extends Player {
     }
 
     public void castAbility() {
-        
+        if (mana >= manaCost) {
+            msg.send(name + " cast Blizzard");
+            mana -= manaCost;
+            
+            int hits = 0;
+            List<Enemy> enemies = helper.getEnemiesInRange(range, this.position);
+            while (hits < hitCount && enemies.size() > 0) {
+                int damage = spellPower;
+
+                Enemy oponent = enemies.get(generator.generate(enemies.size()));
+                battle(oponent, damage);
+                hits++;
+                if(!(oponent.isAlive())){
+                    gainExperience(oponent.experienceValue());
+                    oponent.onDeath(this);
+                }
+            }
+        }
     }
 
-    @Override
-    public void onTick(Board board) {
+    public void onTick(InputType input) {
+        super.onTick(input);
         mana = Math.min(manaPool, mana + level);
     }
 }

@@ -2,7 +2,9 @@ package model.tiles.Units.players.Classes;
 
 import utils.Callbacks.MSG_Callback;
 import model.tiles.Units.players.Player;
-import model.game.Board;
+import control.InputType;
+import model.tiles.Units.Enemies.Enemy;
+import java.util.List;
 
 public class Rogue extends Player {
     private static final int MAX_ENERGY = 100;
@@ -18,11 +20,12 @@ public class Rogue extends Player {
     public void levelUp() {
         super.levelUp();
         energy = MAX_ENERGY;
+        msg.send(name + " reached level" + level + ": +" + healthGain() + " HP, +" + attackGain() + " Attack, +" + defenseGain() + " Defense");
     }
 
     @Override
     public int attack() {
-        return super.attack() + 3 * level;
+        return (super.attack() + 3) * level;
     }
 
     @Override
@@ -31,11 +34,23 @@ public class Rogue extends Player {
     }
 
     public void castAbility() {
-
+        if (energy >= cost) {
+            msg.send(name + " cast Fan of Knives");
+            energy -= cost;
+            List<Enemy> enemies = helper.getEnemiesInRange(2, this.position);
+            int damage = att;
+            for (Enemy enemy : enemies) {
+                battle(enemy, damage);
+                if(!(enemy.isAlive())){
+                    gainExperience(enemy.experienceValue());
+                    enemy.onDeath(this);
+                }
+            }
+        }
     }
 
-    @Override
-    public void onTick(Board board){
+    public void onTick(InputType input) {
+        super.onTick(input);
         energy = Math.min(energy + 10, MAX_ENERGY);
     }
 }

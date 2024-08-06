@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import java.util.HashSet;
 
+import utils.BoardHelper;
 import utils.Position;
 import utils.Callbacks.MSG_Callback;
 import model.tiles.Tile;
@@ -40,7 +41,7 @@ public class LevelInitializor {
         return tf.producePlayer();
     }
 
-    public List<Tile> initLevel(String levelPath, Player player){
+    public List<Tile> initLevel(String levelPath, Player player, BoardHelper helper){
         List<String> lines;
         List<Tile> tiles = new ArrayList<Tile>();
         try {
@@ -65,11 +66,11 @@ public class LevelInitializor {
                         tiles.add(wallTile);
                         break;
                     case '@':
-                        player.setPosition(new Position(x, y));
+                        player.init(new Position(x, y), helper);
                         tiles.add(player);
                         break;
                     default:
-                        Enemy enemyTile = tf.produceEnemy(c, new Position(x, y));
+                        Enemy enemyTile = tf.produceEnemy(c, new Position(x, y), helper);
                         tiles.add(enemyTile);
                         enemies.add(enemyTile);
                         break;

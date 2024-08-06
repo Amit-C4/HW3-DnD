@@ -1,10 +1,10 @@
 package model.tiles.Units.players;
 
-import model.game.Board;
 import utils.Callbacks.MSG_Callback;
 import model.tiles.Units.Unit;
 import model.tiles.Units.Enemies.Enemy;
 import model.tiles.Units.HeroicUnit;
+import control.InputType;
 
 public abstract class Player extends Unit implements HeroicUnit{
     public static final char PLAYER_TILE = '@';
@@ -74,9 +74,9 @@ public abstract class Player extends Unit implements HeroicUnit{
 
     public void visit(Enemy e){
         battle(e);
-        if(!e.isAlive()){
+        if(!(e.isAlive())){
             gainExperience(e.experienceValue());
-            e.onDeath();
+            e.onDeath(this);
         }
     }
 
@@ -85,15 +85,41 @@ public abstract class Player extends Unit implements HeroicUnit{
         return super.toString() + "    Level: " + level + "    Experience: " + experience + "/" + levelRequirement();
     }
 
-    public void onDeath() {
-        //TODO: Implement onDeath
+    public void onDeath(Enemy enemy) {
+        msg.send(name + " was killed by " + enemy.getName());
+        msg.send("You lost");
+        this.symbol = 'X';
     }
 
-    public void castAbility() {
-        //TODO: Implement castAbility
-    }
+    public void onTick(InputType action) {
+        switch (action) {
+            case UP:
+                moveUp();
+                break;
 
-    public void onTick(Board board){
+            case DOWN:
+                moveDown();
+                break;
+            
+            case LEFT:
+                moveLeft();
+                break;
+
+            case RIGHT:
+                moveRight();
+                break;
+            
+            case ABILITY:
+                castAbility();
+                break;
+            
+            case NOTHING:
+                break;
+        
+            default:
+                msg.send("Invalid input");
+                break;
+        }
         
     }
     
