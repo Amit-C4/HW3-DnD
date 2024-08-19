@@ -48,16 +48,22 @@ public class Hunter extends Player {
 
     public void castAbility() {
         if (arrows > 0) {
-            arrows--;
             List<Enemy> enemies = helper.getEnemiesInRange(range, this.position);
             int damage = att;
             Enemy closest = enemies.get(0);
-            msg.send(name + " fired an arrow at " + closest.getName());
-            battle(closest, damage);
-
-            if(!(closest.isAlive())){
-                gainExperience(closest.experienceValue());
-                closest.onDeath(this);
+            if (enemies.isEmpty()) {
+                msg.send("No enemies in range");
+                return;
+            }
+            else{
+                arrows--;
+                msg.send(name + " fired an arrow at " + closest.getName());
+                battle(closest, damage);
+    
+                if(!(closest.isAlive())){
+                    gainExperience(closest.experienceValue());
+                    closest.onDeath(this);
+                }
             }
         }
     }

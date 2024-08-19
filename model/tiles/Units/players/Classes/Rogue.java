@@ -39,11 +39,17 @@ public class Rogue extends Player {
             energy -= cost;
             List<Enemy> enemies = helper.getEnemiesInRange(2, this.position);
             int damage = att;
-            for (Enemy enemy : enemies) {
-                battle(enemy, damage);
-                if(!(enemy.isAlive())){
-                    gainExperience(enemy.experienceValue());
-                    enemy.onDeath(this);
+            if (enemies.isEmpty()) {
+                msg.send("No enemies in range");
+                return;
+            }
+            else{
+                for (Enemy enemy : enemies) {
+                    battle(enemy, damage);
+                    if(!(enemy.isAlive())){
+                        gainExperience(enemy.experienceValue());
+                        enemy.onDeath(this);
+                    }
                 }
             }
         }

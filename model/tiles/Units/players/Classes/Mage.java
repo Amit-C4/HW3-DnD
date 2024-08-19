@@ -51,20 +51,26 @@ public class Mage extends Player {
 
     public void castAbility() {
         if (mana >= manaCost) {
-            msg.send(name + " cast Blizzard");
-            mana -= manaCost;
-            
-            int hits = 0;
             List<Enemy> enemies = helper.getEnemiesInRange(range, this.position);
-            while (hits < hitCount && enemies.size() > 0) {
-                int damage = spellPower;
-
-                Enemy oponent = enemies.get(generator.generate(enemies.size()));
-                battle(oponent, damage);
-                hits++;
-                if(!(oponent.isAlive())){
-                    gainExperience(oponent.experienceValue());
-                    oponent.onDeath(this);
+            if (enemies.isEmpty()) {
+                msg.send("No enemies in range");
+                return;
+            }
+            else {
+                msg.send(name + " cast Blizzard");
+                mana -= manaCost;
+                
+                int hits = 0;
+                while (hits < hitCount && enemies.size() > 0) {
+                    int damage = spellPower;
+    
+                    Enemy oponent = enemies.get(generator.generate(enemies.size()));
+                    battle(oponent, damage);
+                    hits++;
+                    if(!(oponent.isAlive())){
+                        gainExperience(oponent.experienceValue());
+                        oponent.onDeath(this);
+                    }
                 }
             }
         }

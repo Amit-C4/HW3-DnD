@@ -49,14 +49,19 @@ public class Warrior extends Player {
             currCooldown = cooldown;
             hp.heal(10 * dp);
             msg.send(name + " used Avenger's Shield, healing for" + (10*dp));
-
             List<Enemy> enemies = helper.getEnemiesInRange(3, this.position);
-            int damage = hp.getMax() / 10;
-            Enemy oponent = enemies.get(generator.generate(enemies.size()));
-            battle(oponent, damage);
-            if(!(oponent.isAlive())){
-                gainExperience(oponent.experienceValue());
-                oponent.onDeath(this);
+            if (enemies.isEmpty()) {
+                msg.send("No enemies in range");
+                return;
+            }
+            else {
+                int damage = hp.getMax() / 10;
+                Enemy oponent = enemies.get(generator.generate(enemies.size()));
+                battle(oponent, damage);
+                if(!(oponent.isAlive())){
+                    gainExperience(oponent.experienceValue());
+                    oponent.onDeath(this);
+                }
             }
         }
     }
