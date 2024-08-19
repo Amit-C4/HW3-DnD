@@ -36,11 +36,20 @@ public abstract class Player extends Unit implements HeroicUnit{
     }
 
     public void gainExperience(int experience) {
+        /*
         this.experience += experience;
         while (this.experience >= LEVEL_REQUIREMENT) {
             levelUp();
             
         }
+         */
+        this.experience += experience;
+        if (this.experience >= levelRequirement()) {
+            levelUp();
+            experience = this.experience - levelRequirement();
+
+        }
+        
     }
 
     protected int levelRequirement() {
