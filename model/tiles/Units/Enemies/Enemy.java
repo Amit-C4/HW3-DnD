@@ -33,7 +33,7 @@ public abstract class Enemy extends Unit {
         }
     }
 
-    public void onDeath(Player player){
+    public void onDeath(Unit player){
         msg.send(name + " has been defeated. " + player.getName() + " gained " + xp + " experience");
         helper.removeUnit(this);
     }

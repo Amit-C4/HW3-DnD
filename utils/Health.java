@@ -21,7 +21,9 @@ public class Health {
     }
 
     public void takeDamage(int amount) {
-        this.currentHP = Math.max(0,  currentHP-amount);
+        if (amount > 0) {
+            this.currentHP = Math.max(0,  currentHP-amount);
+        }
     }
 
     public int getCurrent() {
@@ -33,9 +35,6 @@ public class Health {
     }
 
     public boolean isAlive() {
-        
-
-        
         return this.currentHP > 0;
     }
 }

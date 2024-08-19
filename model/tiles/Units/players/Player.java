@@ -85,7 +85,7 @@ public abstract class Player extends Unit implements HeroicUnit{
         return super.toString() + "    Level: " + level + "    Experience: " + experience + "/" + levelRequirement();
     }
 
-    public void onDeath(Enemy enemy) {
+    public void onDeath(Unit enemy) {
         msg.send(name + " was killed by " + enemy.getName());
         msg.send("You lost");
         this.symbol = 'X';

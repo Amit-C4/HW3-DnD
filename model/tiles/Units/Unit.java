@@ -14,7 +14,7 @@ import model.tiles.Units.Enemies.Enemy;
 import model.tiles.Units.players.Player;
 
 
-public abstract class Unit extends Tile implements TICK_Callback {
+public abstract class Unit extends Tile implements TICK_Callback , DEATH_Callback {
     protected String name;
     protected Health hp;
     protected int att;
@@ -22,7 +22,6 @@ public abstract class Unit extends Tile implements TICK_Callback {
     protected MSG_Callback msg;
 
     protected Generator generator = new RandomGenerator();
-    protected DEATH_Callback deathCallback;
     protected MSG_Callback msgCallback;
     protected BoardHelper helper;
 

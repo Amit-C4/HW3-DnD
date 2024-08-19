@@ -1,0 +1,361 @@
+@startuml
+class model.tiles.Wall {
+- {static} char WALL_TILE
++ void accept(Unit)
+}
+
+
+class model.tiles.Units.players.Classes.Rogue {
+- {static} int MAX_ENERGY
+- int cost
+- int energy
++ void levelUp()
++ int attack()
++ String toString()
++ void castAbility()
++ void onTick(InputType)
+}
+
+
+class model.tiles.Units.players.Classes.Warrior {
+- int cooldown
+- int currCooldown
++ void levelUp()
++ int attack()
++ int healthGain()
++ int defenseGain()
++ String toString()
++ void castAbility()
++ void onTick(InputType)
+}
+
+
+class model.tiles.Units.players.Classes.Hunter {
+- {static} int ARROW_GAIN
+- {static} int UPDATE_FREQ
+- int arrows
+- int range
+- int ticks
++ void levelUp()
++ int attack()
++ int defenseGain()
+- int arrow_gain()
++ String toString()
++ void castAbility()
++ void onTick(InputType)
+}
+
+
+abstract class model.tiles.Tile {
+# char symbol
+# Position position
++ Position getPosition()
++ void setPosition(Position)
++ Tile init(Position)
++ String view()
++ {abstract}void accept(Unit)
+}
+
+
+class model.game.Game {
+- MSG_Callback msg_Callback
+- Player player
+- InputController ic
++ void startGame()
+}
+
+
+class model.tiles.Units.Enemies.Trap {
+- Visibility visibility
++ void onTick()
++ String view()
+}
+
+
+class view.CLI {
++ void display(String)
+}
+
+class utils.Position {
+- int xPos
+- int yPos
++ int getX()
++ int getY()
++ double range(Position)
++ void setX(int)
++ void setY(int)
++ int compareTo(Position)
+}
+
+
+class model.tiles.Units.Enemies.Monster {
+# int visionRange
++ String toString()
++ void onTick()
+}
+
+
+class utils.Generators.RandomGenerator {
+- Random random
++ int generate(int)
+}
+
+
+class control.init.TileFactory {
+- {static} TileFactory instance
+- Player player
+- {static} MSG_Callback msg
+- {static} List<Supplier<Player>> playerTypes
+- {static} Map<Character,Supplier<Enemy>> enemyTypes
++ {static} TileFactory getInstance(MSG_Callback)
++ Player producePlayer(int,Position)
++ Player producePlayer()
++ Enemy produceEnemy(char,Position,BoardHelper)
++ Tile produceEmpty(Position)
++ Tile produceWall(Position)
+}
+
+
+interface model.tiles.Units.HeroicUnit {
+~ void castAbility()
+}
+
+interface utils.Callbacks.MSG_Callback {
++ void send(String)
+}
+
+class control.init.LevelInitializor {
+- HashSet<Enemy> enemies
+- int width
+- TileFactory tf
++ HashSet<Enemy> getEnemies()
++ int getWidth()
++ Player getPlayer()
++ List<Tile> initLevel(String,Player,BoardHelper)
+}
+
+
+class control.InputController {
+- MSG_Callback msg_Callback
+- {static} Map<Character,InputType> inputTypes
++ Player choosePlayer()
++ InputType getAction()
++ InputType getAltAction()
+}
+
+
+class model.tiles.Units.players.Classes.Mage {
+- {static} int MANA_POOL_GAIN
+- {static} int SPELL_POWER_GAIN
+- int manaPool
+- int mana
+- int manaCost
+- int spellPower
+- int hitCount
+- int range
++ void levelUp()
+- int mana_pool_gain()
+- int spell_power_gain()
++ String toString()
++ void castAbility()
++ void onTick(InputType)
+}
+
+
+enum control.InputType {
++  UP
++  DOWN
++  LEFT
++  RIGHT
++  ABILITY
++  NOTHING
+}
+
+abstract class model.tiles.Units.players.Player {
++ {static} char PLAYER_TILE
+# {static} int LEVEL_REQUIREMENT
+# {static} int HEALTH_GAIN
+# {static} int ATTACK_GAIN
+# {static} int DEFENSE_GAIN
+# int experience
+# int level
+# int playerID
++ void levelUp()
++ void gainExperience(int)
+# int levelRequirement()
+# int healthGain()
+# int attackGain()
+# int defenseGain()
++ int ID()
++ void accept(Unit)
++ void visit(Player)
++ void visit(Enemy)
++ String toString()
++ void onDeath(Enemy)
++ void onTick(InputType)
+}
+
+
+abstract class model.tiles.Units.Unit {
+# String name
+# Health hp
+# int att
+# int dp
+# MSG_Callback msg
+# Generator generator
+# MSG_Callback msgCallback
+# BoardHelper helper
++ Unit init(Position,BoardHelper)
++ int attack()
++ int defend()
++ boolean isAlive()
++ void battle(Unit)
++ void battle(Unit,int)
++ void interact(Tile)
++ void visit(Empty)
++ void visit(Wall)
++ String toString()
++ String getName()
++ {abstract}void visit(Player)
++ {abstract}void visit(Enemy)
++ void moveUp()
++ void moveDown()
++ void moveLeft()
++ void moveRight()
++ void onTick()
+}
+
+
+class utils.BoardHelper {
+- {static} BoardHelper instance
+- Board board
++ BoardHelper getInstance()
++ void setBoard(Board)
++ Board getBoard()
++ void swapPositions(Tile,Tile)
++ List<Enemy> getEnemiesInRange(int,Position)
++ Position getPlayerPosition()
++ Tile getTile(Position)
++ void removeUnit(Tile)
++ Player getPlayer()
+}
+
+
+abstract class model.tiles.Units.Enemies.Enemy {
+# int xp
+# char character
++ int experienceValue()
++ void accept(Unit)
++ void visit(Enemy)
++ void visit(Player)
++ void onDeath(Player)
++ String toString()
+}
+
+
+class model.game.Board {
+- Map<Position,Tile> board
+- int width
+- Player player
+- Set<Enemy> enemies
++ Set<Enemy> getEnemies()
++ int getWidth()
++ Player getPlayer()
++ Tile getTile(Position)
++ String toString()
++ void swapPositions(Tile,Tile)
++ void removeUnit(Tile)
+}
+
+
+interface utils.Callbacks.TICK_Callback {
++ void onTick()
+}
+
+class utils.Health {
+- int maxHP
+- int currentHP
++ void increaseMax(int)
++ void heal()
++ void heal(int)
++ void takeDamage(int)
++ int getCurrent()
++ int getMax()
++ boolean isAlive()
+}
+
+
+interface utils.Callbacks.DEATH_Callback {
+~ void onDeath()
+}
+
+class model.game.Level {
+- String[] paths
+- String path
+- Board board
+- InputController inputController
+- MSG_Callback msg_Callback
++ void startLevel()
+- void Tick()
+}
+
+
+class model.tiles.Units.Enemies.Boss {
+- int abilityFrequency
+- int combatTicks
++ void castAbility()
++ void onTick()
+}
+
+
+abstract class view.View {
++ {abstract}void display(String)
++ MSG_Callback getCallback()
+}
+
+class Main {
++ {static} void main(String[])
+}
+
+class utils.Visibility {
+- int visibilityTime
+- int invisibilityTime
+- int ticksCount
+- boolean visible
++ void tick()
++ boolean getCurrent()
+}
+
+
+class model.tiles.Empty {
+- {static} char EMPTY_TILE
++ void accept(Unit)
+}
+
+
+interface utils.Generators.Generator {
++ int generate(int)
+}
+
+
+
+model.tiles.Tile <|-- model.tiles.Wall
+model.tiles.Units.players.Player <|-- model.tiles.Units.players.Classes.Rogue
+model.tiles.Units.players.Player <|-- model.tiles.Units.players.Classes.Warrior
+model.tiles.Units.players.Player <|-- model.tiles.Units.players.Classes.Hunter
+model.tiles.Units.Enemies.Enemy <|-- model.tiles.Units.Enemies.Trap
+view.View <|-- view.CLI
+utils.Comparable <|.. utils.Position
+model.tiles.Units.Enemies.Enemy <|-- model.tiles.Units.Enemies.Monster
+utils.Generators.Generator <|.. utils.Generators.RandomGenerator
+model.tiles.Units.players.Player <|-- model.tiles.Units.players.Classes.Mage
+model.tiles.Units.HeroicUnit <|.. model.tiles.Units.players.Player
+model.tiles.Units.Unit <|-- model.tiles.Units.players.Player
+utils.Callbacks.TICK_Callback <|.. model.tiles.Units.Unit
+utils.Callbacks.DEATH_Callback <|.. model.tiles.Units.Unit
+model.tiles.Tile <|-- model.tiles.Units.Unit
+model.tiles.Units.Unit <|-- model.tiles.Units.Enemies.Enemy
+model.tiles.Units.HeroicUnit <|.. model.tiles.Units.Enemies.Boss
+model.tiles.Units.Enemies.Monster <|-- model.tiles.Units.Enemies.Boss
+model.tiles.Tile <|-- model.tiles.Empty
+@enduml
